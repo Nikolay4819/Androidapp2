@@ -1,52 +1,44 @@
 package com.example.myandroidapplication
 
-import android.content.ContentValues.TAG
-import android.util.Log
+
 
 
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 
-const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var switchFragmentsButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d(TAG,"Ты видишь в зеркале своё изображенье?")
-    }
 
-    override fun onStart () {
-        super.onStart()
-        Log.d(TAG,"Скажи ему: Пора подобное создать;")
-    }
+        switchFragmentsButton = findViewById(R.id.switch_fragments_button)
 
-    override fun onResume () {
-        super.onResume()
-        Log.d(TAG,"Иначе у земли ты совершишь хищенье,")
-    }
+        val startFragment = BlankFragment()
+        val endFragment = EndFragment()
 
-    override fun onPause (){
-        super.onPause()
-        Log.d (TAG, "У юной матери отнимешь благодать.")
-    }
+        switchFragmentsButton.setOnClickListener {
+            val fragment =
+                when (supportFragmentManager.findFragmentById(R.id.fragment_container)) {
+                    is BlankFragment -> endFragment
+                    is EndFragment -> startFragment
+                    else -> startFragment
+                }
 
-    override fun onStop (){
-         super.onStop()
-         Log.d (TAG, "Где та красавица, чья девственная нива")
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit()
+        }
     }
-
-    override fun onDestroy () {
-          super.onDestroy()
-          Log.d (TAG, "Такого пахаря отвергла бы, как ты?")
-    }
-
 }
 
 
 
-<androidx.recyclerview.widget.RecyclerView
+
 
